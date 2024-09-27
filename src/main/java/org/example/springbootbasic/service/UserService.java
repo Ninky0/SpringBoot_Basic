@@ -38,4 +38,13 @@ public class UserService {
     public void createUser(User user) {
         userMapper.insertUser(user);
     }
+
+    public void updateUser(Long id, User user) {
+
+    }
+
+    public void deleteUser(User user) {
+        userMapper.deleteUser(user);
+    }
+
 }

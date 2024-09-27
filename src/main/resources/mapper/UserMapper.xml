@@ -16,5 +16,9 @@
         SELECT * FROM user WHERE id = #{id};
     </select>
 
+    <delete id="deleteUser" parameterType="org.example.springbootbasic.model.User">
+        DELETE FROM user WHERE userid = #{userid};
+    </delete>
+
 
 </mapper>

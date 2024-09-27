@@ -1,7 +1,9 @@
 package org.example.springbootbasic.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
 import org.example.springbootbasic.dto.MemberCreateRequestDTO;
+import org.example.springbootbasic.dto.MemberDeleteRequestDTO;
 import org.example.springbootbasic.dto.MemberResponseDTO;
 import org.example.springbootbasic.model.User;
 import org.example.springbootbasic.service.UserService;
@@ -30,11 +32,22 @@ public class UserController {
         return "sign_up";
     }
 
+    @PostMapping("/register")
+    public String createUser(@RequestBody MemberCreateRequestDTO request) {
+        userService.createUser( request.toUser() );
+        return "redirect:/users";
+    }
+
     @GetMapping("/update/{id}")
     public String updateForm(@PathVariable Long id, Model model){
         MemberResponseDTO user = userService.findById(id);
         model.addAttribute("user",user);
         return "user_update";
+    }
+
+    @PostMapping("/update")
+    public String updateUser(){
+        return "redirect:/users";
     }
 
 //    쿼리스트링 방식
@@ -44,9 +57,16 @@ public class UserController {
 //        return "user_update";
 //    }
 
-    @PostMapping("/register")
-    public String createUser(@RequestBody MemberCreateRequestDTO request) {
-        userService.createUser( request.toUser() );
+    @GetMapping("/delete/{id}")
+    public String deleteForm(@PathVariable Long id, Model model){
+        MemberResponseDTO user = userService.findById(id);
+        model.addAttribute("user",user);
+        return "user_delete";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@RequestBody MemberDeleteRequestDTO request){
+        userService.deleteUser(request.toUser());
         return "redirect:/users";
     }
 
