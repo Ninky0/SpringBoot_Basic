@@ -10,6 +10,7 @@ import org.example.springbootbasic.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -65,9 +66,15 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(@RequestBody MemberDeleteRequestDTO request){
-        userService.deleteUser(request.toUser());
-        return "redirect:/users";
+    public String deleteUser(@RequestBody MemberDeleteRequestDTO request, RedirectAttributes redirectAttributes){
+        boolean checkValidation = userService.checkValidation(request.getId(), request.getPassword());
+        if(!checkValidation){
+            redirectAttributes.addFlashAttribute("errorMessage", "입력된 정보가 일치하지 않습니다.");
+            return "redirect:/delete/{id}";
+        } else{
+            userService.deleteUser(request.toUser());
+            return "redirect:/users";
+        }
     }
 
 

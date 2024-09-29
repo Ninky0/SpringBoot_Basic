@@ -20,5 +20,4 @@
         DELETE FROM user WHERE userid = #{userid};
     </delete>
 
-
 </mapper>

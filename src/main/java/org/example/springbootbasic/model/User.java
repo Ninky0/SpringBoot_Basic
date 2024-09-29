@@ -19,6 +19,7 @@ public class User {
                 .name(name)
                 .email(email)
                 .userid(userid)
+                //.password(password)
                 .build();
     }
 }

@@ -11,5 +11,6 @@ public interface UserMapper {
     void insertUser(User user);
     User findById(Long id);
     void updateUser(User user);
+    boolean checkValidation(Long id, String password);
     void deleteUser(User user);
 }

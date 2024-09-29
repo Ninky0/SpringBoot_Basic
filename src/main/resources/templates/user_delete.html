@@ -8,6 +8,11 @@
 <body>
 <div class="container mt-5">
     <h2 class="mb-4">회원 삭제</h2>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <form id="registrationForm">
 
         <div class="form-group">
@@ -32,9 +37,17 @@
 <!-- JavaScript 코드 추가 -->
 <script>
     function submitForm() {
+        const userid = document.getElementById('userid').value;
+        const password = document.getElementById('password').value;
+
+        if (!userid || !password) {
+            alert('ID와 비밀번호를 모두 입력하세요.');
+            return;
+        }
+
         const formData = {
-            userid: document.getElementById('userid').value,
-            password: document.getElementById('password').value
+            userid: userid,
+            password: password
         };
 
         fetch('/users/delete', {

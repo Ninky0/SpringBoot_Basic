@@ -47,4 +47,12 @@ public class UserService {
         userMapper.deleteUser(user);
     }
 
+    public boolean checkValidation(Long id, String password) {
+        User user = userMapper.findById(id);
+        if (user.getPassword() == password) {
+            return true;
+        }
+        return false;
+    }
+
 }
