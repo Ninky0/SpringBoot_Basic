@@ -53,9 +53,9 @@ public class UserController {
 //    }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody MemberUpdateRequestDTO request) {
+    public ResponseEntity<String> updateUser(@RequestBody MemberUpdateRequestDTO request) {
         userService.updateUser(request.toUser());
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok("사용자가 성공적으로 수정되었습니다.");
     }
 
     @GetMapping("/delete/{id}")
@@ -75,7 +75,7 @@ public class UserController {
                     .body("입력된 정보가 일치하지 않습니다.");
         }
 
-        userService.deleteUser(request.toUser());
+        userService.deleteUser(request.toUser(id));
         // 200 OK와 함께 성공 메시지를 반환
         return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
     }
