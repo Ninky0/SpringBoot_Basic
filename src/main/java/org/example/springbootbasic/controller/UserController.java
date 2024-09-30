@@ -1,18 +1,16 @@
 package org.example.springbootbasic.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
 import org.example.springbootbasic.dto.MemberCreateRequestDTO;
 import org.example.springbootbasic.dto.MemberDeleteRequestDTO;
 import org.example.springbootbasic.dto.MemberResponseDTO;
-import org.example.springbootbasic.model.User;
+import org.example.springbootbasic.dto.MemberUpdateRequestDTO;
 import org.example.springbootbasic.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -47,24 +45,23 @@ public class UserController {
         model.addAttribute("user", user);
         return "user_update";
     }
-
-    @PostMapping("/update")
-    public String updateUser() {
-        return "redirect:/users";
-    }
-
-//    쿼리스트링 방식
+    //    쿼리스트링 방식
 //    @GetMapping("/update")
 //    public String updateForm(@RequestParam("id") Long id, Model model){
 //        System.out.println("id : " + id);
 //        return "user_update";
 //    }
 
+    @PutMapping
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody MemberUpdateRequestDTO request) {
+        userService.updateUser(request.toUser());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @GetMapping("/delete/{id}")
     public String deleteForm(@PathVariable Long id, Model model) {
         MemberResponseDTO user = userService.findById(id);
         model.addAttribute("user", user);
-        model.addAttribute("id", id);
         return "user_delete";
     }
 

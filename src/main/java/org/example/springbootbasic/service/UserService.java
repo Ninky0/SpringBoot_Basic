@@ -39,8 +39,8 @@ public class UserService {
         userMapper.insertUser(user);
     }
 
-    public void updateUser(Long id, User user) {
-
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
     }
 
     public void deleteUser(User user) {

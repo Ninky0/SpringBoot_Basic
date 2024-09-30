@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<input type="hidden" th:value="${user.id}" id="id" name="id"/>
 <div class="container mt-5">
     <h2 class="mb-4">회원 삭제</h2>
 
@@ -19,9 +20,6 @@
             <label for="userid">ID</label>
             <input th:value="${user.userid}" type="text" class="form-control" id="userid" name="userid" readonly>
         </div>
-
-        <input type="hidden" th:value="${id}" id="id" name="id"/>
-
         <div class="form-group">
             <label for="userid">PASSWORD</label>
             <input type="text" class="form-control" id="password" name="password" placeholder="pw를 입력하세요." required>

@@ -12,12 +12,16 @@
         INSERT INTO user(name,email,userid,password) VALUES (#{name},#{email},#{userid},#{password});
     </insert>
 
+    <update id="updateUser" parameterType="org.example.springbootbasic.model.User">
+        UPDATE user SET name = #{name}, email = #{email} WHERE userid = #{userid};
+        </update>
+
     <select id="findById" parameterType="long" resultType="org.example.springbootbasic.model.User">
         SELECT * FROM user WHERE id = #{id};
     </select>
 
     <delete id="deleteUser" parameterType="org.example.springbootbasic.model.User">
-        DELETE FROM user WHERE userid = #{userid};
+        DELETE FROM user WHERE id = #{id};
     </delete>
 
 </mapper>
