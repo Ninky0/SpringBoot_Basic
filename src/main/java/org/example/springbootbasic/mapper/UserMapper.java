@@ -10,7 +10,7 @@ public interface UserMapper {
     List<User> findAll();
     void insertUser(User user);
     User findById(Long id);
+    User findByUserid(String userid);
     void updateUser(User user);
-    boolean checkValidation(Long id, String password);
     void deleteUser(User user);
 }

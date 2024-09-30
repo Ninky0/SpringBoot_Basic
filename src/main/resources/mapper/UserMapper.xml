@@ -16,6 +16,10 @@
         SELECT * FROM user WHERE id = #{id};
     </select>
 
+    <select id="findByUserid" parameterType="String" resultType="org.example.springbootbasic.model.User">
+        SELECT * FROM user WHERE userid = #{userid};
+    </select>
+
     <delete id="deleteUser" parameterType="org.example.springbootbasic.model.User">
         DELETE FROM user WHERE userid = #{userid};
     </delete>

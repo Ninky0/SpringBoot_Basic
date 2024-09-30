@@ -21,33 +21,33 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public String findAllUsers(Model model){
+    public String findAllUsers(Model model) {
         List<MemberResponseDTO> users = userService.findAll();
         System.out.println("users.size()" + users.size());
-        model.addAttribute("users",users);
+        model.addAttribute("users", users);
         return "user_list";
     }
 
     @GetMapping("/register")
-    public String registerForm(){
+    public String registerForm() {
         return "sign_up";
     }
 
     @PostMapping("/register")
     public String createUser(@RequestBody MemberCreateRequestDTO request) {
-        userService.createUser( request.toUser() );
+        userService.createUser(request.toUser());
         return "redirect:/users";
     }
 
     @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable Long id, Model model){
+    public String updateForm(@PathVariable Long id, Model model) {
         MemberResponseDTO user = userService.findById(id);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "user_update";
     }
 
     @PostMapping("/update")
-    public String updateUser(){
+    public String updateUser() {
         return "redirect:/users";
     }
 
@@ -59,22 +59,23 @@ public class UserController {
 //    }
 
     @GetMapping("/delete/{id}")
-    public String deleteForm(@PathVariable Long id, Model model){
+    public String deleteForm(@PathVariable Long id, Model model) {
         MemberResponseDTO user = userService.findById(id);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
+        model.addAttribute("id", id);
         return "user_delete";
     }
 
-    @DeleteMapping("/delete")
-    public String deleteUser(@RequestBody MemberDeleteRequestDTO request, RedirectAttributes redirectAttributes){
-        boolean checkValidation = userService.checkValidation(request.getId(), request.getPassword());
-        if(!checkValidation){
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id, @RequestBody MemberDeleteRequestDTO request, RedirectAttributes redirectAttributes) {
+        boolean checkValidation = userService.checkValidation(request.getUserid(), request.getPassword());
+        if (!checkValidation) {
             redirectAttributes.addFlashAttribute("errorMessage", "입력된 정보가 일치하지 않습니다.");
-            return "redirect:/delete/{id}";
-        } else{
-            userService.deleteUser(request.toUser());
-            return "redirect:/users";
+            return "redirect:/users/delete"+id;
         }
+        userService.deleteUser(request.toUser());
+        return "redirect:/users";
+
     }
 
 
