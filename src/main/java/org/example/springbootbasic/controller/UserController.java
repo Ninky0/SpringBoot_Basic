@@ -7,6 +7,8 @@ import org.example.springbootbasic.dto.MemberDeleteRequestDTO;
 import org.example.springbootbasic.dto.MemberResponseDTO;
 import org.example.springbootbasic.model.User;
 import org.example.springbootbasic.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -67,16 +69,17 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id, @RequestBody MemberDeleteRequestDTO request, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id, @RequestBody MemberDeleteRequestDTO request) {
         boolean checkValidation = userService.checkValidation(id, request.getPassword());
+
         if (!checkValidation) {
-            redirectAttributes.addFlashAttribute("errorMessage", "입력된 정보가 일치하지 않습니다.");
-            return "redirect:/users/delete/"+id;
+            // 400 Bad Request를 반환하여 클라이언트가 에러를 인식하도록 함
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("입력된 정보가 일치하지 않습니다.");
         }
+
         userService.deleteUser(request.toUser());
-        return "redirect:/users";
-
+        // 200 OK와 함께 성공 메시지를 반환
+        return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
     }
-
-
 }
