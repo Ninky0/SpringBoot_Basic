@@ -68,10 +68,10 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id, @RequestBody MemberDeleteRequestDTO request, RedirectAttributes redirectAttributes) {
-        boolean checkValidation = userService.checkValidation(request.getUserid(), request.getPassword());
+        boolean checkValidation = userService.checkValidation(id, request.getPassword());
         if (!checkValidation) {
             redirectAttributes.addFlashAttribute("errorMessage", "입력된 정보가 일치하지 않습니다.");
-            return "redirect:/users/delete"+id;
+            return "redirect:/users/delete/"+id;
         }
         userService.deleteUser(request.toUser());
         return "redirect:/users";
